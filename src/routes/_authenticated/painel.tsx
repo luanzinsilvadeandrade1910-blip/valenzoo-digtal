@@ -44,7 +44,7 @@ function Painel() {
         setProfile(data);
       } else {
         // First access: create the profile from the signup metadata.
-        const nome = (user.user_metadata?.nome as string | undefined) ?? "";
+        const nome = (user.user_metadata?.['nome'] as string | undefined) ?? "";
         const { data: created } = await supabase
           .from("profiles")
           .insert({ id: user.id, nome, email: user.email ?? "" })
@@ -67,8 +67,8 @@ function Painel() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const nome = profile?.nome || (user.user_metadata?.nome as string | undefined) || "";
-  const status = profile?.project_status ?? ETAPAS[0];
+  const nome = profile?.nome || (user.user_metadata?.['nome'] as string | undefined) || "";
+  const status = profile?.project_status ?? "Aguardando briefing";
   const currentIdx = Math.max(0, ETAPAS.indexOf(status));
   const since = profile
     ? new Date(profile.created_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })
