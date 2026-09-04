@@ -64,10 +64,10 @@ export function Footer() {
             </li>
             <li>
               <a
-                href="mailto:contato@valenzo.com.br"
+                href="mailto:Valeenzoo.commercy@gmail.com"
                 className="text-foreground/80 transition-colors hover:text-foreground underline-offset-4 hover:underline"
               >
-                contato@valenzo.com.br
+                Valeenzoo.commercy@gmail.com
               </a>
             </li>
           </ul>
