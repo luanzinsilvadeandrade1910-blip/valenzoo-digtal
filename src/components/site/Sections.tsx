@@ -1,9 +1,18 @@
-import { ArrowRight, ArrowUpRight, Scissors, Sparkles, Store, Wand2 } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Scissors, Sparkles, Store, Wand2 } from "lucide-react";
 
-import caseSalao from "@/assets/case-salao.jpg";
-import caseBarbearia from "@/assets/case-barbearia.jpg";
-import caseClinica from "@/assets/case-clinica.jpg";
-import caseLoja from "@/assets/case-loja.jpg";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import caseSalao from "@/assets/case-salao-color.jpg";
+import caseBarbearia from "@/assets/case-barbearia-color.jpg";
+import caseClinica from "@/assets/case-clinica-color.jpg";
+import caseLoja from "@/assets/case-loja-color.jpg";
 
 /* ---------------------------------- Hero ---------------------------------- */
 
@@ -180,10 +189,42 @@ export function ComoFunciona() {
 /* -------------------------------- Portfólio ------------------------------- */
 
 const CASES = [
-  { img: caseSalao, name: "Studio Aline Ramos", seg: "Salão de beleza", city: "Pinheiros, SP" },
-  { img: caseBarbearia, name: "Barbearia Oficina 42", seg: "Barbearia", city: "Santo André, SP" },
-  { img: caseClinica, name: "Clínica Lume Estética", seg: "Clínica de estética", city: "Moema, SP" },
-  { img: caseLoja, name: "Empório Sete Grãos", seg: "Loja de produtos naturais", city: "Campinas, SP" },
+  {
+    img: caseSalao,
+    name: "Studio Aline Ramos",
+    seg: "Salão de beleza",
+    city: "Pinheiros, SP",
+    summary: "Uma agenda digital que apresenta cada serviço e transforma visitas em horários marcados.",
+    result: "Mais autonomia para as clientes agendarem e menos tempo da equipe respondendo mensagens.",
+    deliverables: ["Agenda online", "Galeria de resultados", "Serviços e preços", "WhatsApp integrado"],
+  },
+  {
+    img: caseBarbearia,
+    name: "Barbearia Oficina 42",
+    seg: "Barbearia",
+    city: "Santo André, SP",
+    summary: "Um site direto e marcante para apresentar barbeiros, planos e horários disponíveis.",
+    result: "Uma presença digital coerente com o espaço e um caminho mais curto até o agendamento.",
+    deliverables: ["Perfis da equipe", "Planos e combos", "Agendamento", "Mapa e horários"],
+  },
+  {
+    img: caseClinica,
+    name: "Clínica Lume Estética",
+    seg: "Clínica de estética",
+    city: "Moema, SP",
+    summary: "Conteúdo organizado para explicar procedimentos com clareza e transmitir confiança.",
+    result: "Pacientes chegam ao primeiro contato mais informados sobre tratamentos e cuidados.",
+    deliverables: ["Páginas de procedimentos", "Antes e depois", "Pré-avaliação", "Contato rápido"],
+  },
+  {
+    img: caseLoja,
+    name: "Empório Sete Grãos",
+    seg: "Loja de produtos naturais",
+    city: "Campinas, SP",
+    summary: "Um catálogo leve para encontrar produtos por categoria e pedir direto pelo WhatsApp.",
+    result: "Produtos mais fáceis de descobrir e pedidos digitais organizados em poucos passos.",
+    deliverables: ["Catálogo por categoria", "Busca de produtos", "Pedido no WhatsApp", "Localização"],
+  },
 ];
 
 export function Portfolio() {
@@ -205,37 +246,86 @@ export function Portfolio() {
 
         <div className="mt-16 grid gap-x-8 gap-y-14 md:grid-cols-2">
           {CASES.map((c) => (
-            <article key={c.name} className="group">
-              <a
-                href="#contato"
-                className="block overflow-hidden border border-border bg-card focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                aria-label={`Ver projeto ${c.name}`}
-              >
+            <Dialog key={c.name}>
+              <article className="group">
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="block h-auto w-full overflow-hidden rounded-none border border-border bg-card p-0 focus-visible:ring-offset-2"
+                    aria-label={`Abrir case ${c.name}`}
+                  >
+                    <img
+                      src={c.img}
+                      alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
+                      width={1024}
+                      height={768}
+                      loading="lazy"
+                      className="aspect-[4/3] w-full object-cover saturate-75 transition-[transform,filter] duration-500 group-hover:scale-[1.02] group-hover:saturate-100"
+                    />
+                  </Button>
+                </DialogTrigger>
+                <div className="mt-5 flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-bold tracking-tight text-foreground">{c.name}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {c.seg} · {c.city}
+                    </p>
+                  </div>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="h-9 shrink-0 rounded-none border-b border-foreground/40 px-0 text-sm font-semibold hover:border-foreground hover:bg-transparent"
+                    >
+                      Ver projeto
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                </div>
+              </article>
+
+              <DialogContent className="max-h-[90vh] w-[calc(100%-2rem)] max-w-4xl gap-0 overflow-y-auto rounded-sm border-border p-0">
                 <img
                   src={c.img}
-                  alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
+                  alt={`Ambiente de ${c.name}`}
                   width={1024}
                   height={768}
-                  loading="lazy"
-                  className="aspect-[4/3] w-full object-cover grayscale transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="aspect-[16/8] w-full object-cover saturate-75"
                 />
-              </a>
-              <div className="mt-5 flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="text-lg font-bold tracking-tight text-foreground">{c.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {c.seg} · {c.city}
-                  </p>
+                <div className="grid gap-10 p-6 sm:p-10 md:grid-cols-12">
+                  <div className="md:col-span-7">
+                    <p className="eyebrow">{c.seg} · {c.city}</p>
+                    <DialogTitle className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
+                      {c.name}
+                    </DialogTitle>
+                    <DialogDescription className="mt-5 text-base leading-relaxed">
+                      {c.summary}
+                    </DialogDescription>
+                    <div className="mt-8 border-t border-border pt-6">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        Resultado
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground">{c.result}</p>
+                    </div>
+                  </div>
+                  <div className="md:col-span-4 md:col-start-9">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      O que foi entregue
+                    </p>
+                    <ul className="mt-4 space-y-3">
+                      {c.deliverables.map((item) => (
+                        <li key={item} className="flex items-center gap-3 text-sm text-foreground">
+                          <Check className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button asChild className="mt-8 h-11 w-full rounded-sm">
+                      <a href="#contato">Quero um projeto assim</a>
+                    </Button>
+                  </div>
                 </div>
-                <a
-                  href="#contato"
-                  className="inline-flex h-9 shrink-0 items-center gap-1.5 border-b border-foreground/40 text-sm font-semibold text-foreground transition-colors hover:border-foreground focus-visible:outline-none focus-visible:border-foreground"
-                >
-                  Ver projeto
-                  <ArrowUpRight className="h-4 w-4" />
-                </a>
-              </div>
-            </article>
+              </DialogContent>
+            </Dialog>
           ))}
         </div>
       </div>
