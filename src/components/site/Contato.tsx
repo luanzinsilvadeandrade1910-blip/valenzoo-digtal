@@ -87,7 +87,7 @@ export function Contato() {
               <dt className="text-muted-foreground">E-mail</dt>
               <dd className="mt-1">
                 <a href="mailto:contato@valenzo.com.br" className="font-semibold text-foreground underline-offset-4 hover:underline">
-                  contato@valenzo.com.br
+                  Valeenzoo.commercy@gmail.com.br
                 </a>
               </dd>
             </div>
