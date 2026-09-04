@@ -9,10 +9,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import caseSalao from "@/assets/case-salao.jpg";
-import caseBarbearia from "@/assets/case-barbearia.jpg";
-import caseClinica from "@/assets/case-clinica.jpg";
-import caseLoja from "@/assets/case-loja.jpg";
+import caseSalao from "@/assets/case-salao-color.jpg";
+import caseBarbearia from "@/assets/case-barbearia-color.jpg";
+import caseClinica from "@/assets/case-clinica-color.jpg";
+import caseLoja from "@/assets/case-loja-color.jpg";
 
 /* ---------------------------------- Hero ---------------------------------- */
 
