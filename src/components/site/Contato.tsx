@@ -78,8 +78,8 @@ export function Contato() {
             <div>
               <dt className="text-muted-foreground">WhatsApp</dt>
               <dd className="mt-1">
-                <a href="https://wa.me/5511913025382" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline-offset-4 hover:underline">
-                  (11) 913025382
+                <a href="https://wa.me/55 11 96151-4831" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline-offset-4 hover:underline">
+                  (11) 96151-4831
                 </a>
               </dd>
             </div>
