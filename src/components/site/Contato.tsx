@@ -94,8 +94,8 @@ export function Contato() {
             <div>
               <dt className="text-muted-foreground">Instagram</dt>
               <dd className="mt-1">
-                <a href="https://instagram.com/valenzo" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline-offset-4 hover:underline">
-                  @valenzo
+                <a href="https://instagram.com/valenzoo__" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline-offset-4 hover:underline">
+                 @valenzoo__
                 </a>
               </dd>
             </div>
