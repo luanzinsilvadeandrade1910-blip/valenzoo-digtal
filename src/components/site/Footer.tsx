@@ -44,12 +44,12 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm">
             <li>
               <a
-                href="https://instagram.com/valenzo"
+                href="https://instagram.com/valenzoo__"
                 target="_blank"
                 rel="noreferrer"
                 className="text-foreground/80 transition-colors hover:text-foreground underline-offset-4 hover:underline"
               >
-                Instagram — @valenzo
+                Instagram — @valenzoo__
               </a>
             </li>
             <li>
