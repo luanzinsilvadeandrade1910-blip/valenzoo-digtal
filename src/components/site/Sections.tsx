@@ -1,13 +1,7 @@
-import { ArrowRight, ArrowUpRight, Check, Scissors, Sparkles, Store, Wand2 } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Scissors, Sparkles, Store, Wand2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 import caseSalao from "@/assets/case-salao-color.jpg";
 import caseBarbearia from "@/assets/case-barbearia-color.jpg";
@@ -227,7 +221,89 @@ const CASES = [
   },
 ];
 
+function CaseLightbox({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50">
+      <div
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <button
+        type="button"
+        onClick={onClose}
+        className="fixed top-4 right-4 z-[60] inline-flex h-10 w-10 items-center justify-center rounded-full border border-foreground/30 bg-primary-foreground text-primary shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        aria-label="Fechar"
+      >
+        <X className="h-5 w-5" strokeWidth={1.5} />
+      </button>
+      <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="min-h-screen px-4 py-14 sm:px-6">
+          <article className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-sm bg-background shadow-2xl">
+            <img
+              src={c.img}
+              alt={`Ambiente de ${c.name}`}
+              width={1024}
+              height={768}
+              className="aspect-[16/8] w-full object-cover saturate-75"
+            />
+            <div className="grid gap-10 p-6 sm:p-10 md:grid-cols-12">
+              <div className="md:col-span-7">
+                <p className="eyebrow">{c.seg} · {c.city}</p>
+                <h3 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
+                  {c.name}
+                </h3>
+                <p className="mt-5 text-base leading-relaxed text-foreground/90">
+                  {c.summary}
+                </p>
+                <div className="mt-8 border-t border-border pt-6">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Resultado
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">{c.result}</p>
+                </div>
+              </div>
+              <div className="md:col-span-4 md:col-start-9">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  O que foi entregue
+                </p>
+                <ul className="mt-4 space-y-3">
+                  {c.deliverables.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm text-foreground">
+                      <Check className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild className="mt-8 h-11 w-full rounded-sm">
+                  <a href="#contato" onClick={onClose}>
+                    Quero um projeto assim
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Portfolio() {
+  const [openCase, setOpenCase] = useState<(typeof CASES)[number] | null>(null);
+
   return (
     <section id="portfolio" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
@@ -246,89 +322,44 @@ export function Portfolio() {
 
         <div className="mt-16 grid gap-x-8 gap-y-14 md:grid-cols-2">
           {CASES.map((c) => (
-            <Dialog key={c.name}>
-              <article className="group">
-                <DialogTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="block h-auto w-full overflow-hidden rounded-none border border-border bg-card p-0 focus-visible:ring-offset-2"
-                    aria-label={`Abrir case ${c.name}`}
-                  >
-                    <img
-                      src={c.img}
-                      alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
-                      width={1024}
-                      height={768}
-                      loading="lazy"
-                      className="aspect-[4/3] w-full object-cover saturate-75 transition-[transform,filter] duration-500 group-hover:scale-[1.02] group-hover:saturate-100"
-                    />
-                  </Button>
-                </DialogTrigger>
-                <div className="mt-5 flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-lg font-bold tracking-tight text-foreground">{c.name}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {c.seg} · {c.city}
-                    </p>
-                  </div>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="h-9 shrink-0 rounded-none border-b border-foreground/40 px-0 text-sm font-semibold hover:border-foreground hover:bg-transparent"
-                    >
-                      Ver projeto
-                      <ArrowUpRight className="h-4 w-4" />
-                    </Button>
-                  </DialogTrigger>
-                </div>
-              </article>
-
-              <DialogContent className="max-h-[90vh] w-[calc(100%-2rem)] max-w-4xl gap-0 overflow-y-auto rounded-sm border-border p-0">
+            <article key={c.name} className="group">
+              <Button
+                variant="ghost"
+                onClick={() => setOpenCase(c)}
+                className="block h-auto w-full overflow-hidden rounded-none border border-border bg-card p-0 focus-visible:ring-offset-2"
+                aria-label={`Abrir case ${c.name}`}
+              >
                 <img
                   src={c.img}
-                  alt={`Ambiente de ${c.name}`}
+                  alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
                   width={1024}
                   height={768}
-                  className="aspect-[16/8] w-full object-cover saturate-75"
+                  loading="lazy"
+                  className="aspect-[4/3] w-full object-cover saturate-75 transition-[transform,filter] duration-500 group-hover:scale-[1.03] group-hover:saturate-100"
                 />
-                <div className="grid gap-10 p-6 sm:p-10 md:grid-cols-12">
-                  <div className="md:col-span-7">
-                    <p className="eyebrow">{c.seg} · {c.city}</p>
-                    <DialogTitle className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
-                      {c.name}
-                    </DialogTitle>
-                    <DialogDescription className="mt-5 text-base leading-relaxed">
-                      {c.summary}
-                    </DialogDescription>
-                    <div className="mt-8 border-t border-border pt-6">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        Resultado
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-foreground">{c.result}</p>
-                    </div>
-                  </div>
-                  <div className="md:col-span-4 md:col-start-9">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      O que foi entregue
-                    </p>
-                    <ul className="mt-4 space-y-3">
-                      {c.deliverables.map((item) => (
-                        <li key={item} className="flex items-center gap-3 text-sm text-foreground">
-                          <Check className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <Button asChild className="mt-8 h-11 w-full rounded-sm">
-                      <a href="#contato">Quero um projeto assim</a>
-                    </Button>
-                  </div>
+              </Button>
+              <div className="mt-5 flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-bold tracking-tight text-foreground">{c.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {c.seg} · {c.city}
+                  </p>
                 </div>
-              </DialogContent>
-            </Dialog>
+                <Button
+                  variant="ghost"
+                  onClick={() => setOpenCase(c)}
+                  className="h-9 shrink-0 rounded-none border-b border-foreground/40 px-0 text-sm font-semibold hover:border-foreground hover:bg-transparent"
+                >
+                  Ver projeto
+                  <ArrowUpRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </article>
           ))}
         </div>
       </div>
+
+      {openCase && <CaseLightbox c={openCase} onClose={() => setOpenCase(null)} />}
     </section>
   );
 }
