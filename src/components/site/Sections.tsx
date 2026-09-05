@@ -244,7 +244,7 @@ function CaseLightbox({ c, onClose }: { c: (typeof CASES)[number]; onClose: () =
       <button
         type="button"
         onClick={onClose}
-        className="fixed top-4 right-4 z-[60] inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground text-primary shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="fixed top-4 right-4 z-[60] inline-flex h-10 w-10 items-center justify-center rounded-full border border-foreground/30 bg-primary-foreground text-primary shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         aria-label="Fechar"
       >
         <X className="h-5 w-5" strokeWidth={1.5} />
