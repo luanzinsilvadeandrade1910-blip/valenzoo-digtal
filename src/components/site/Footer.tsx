@@ -54,12 +54,12 @@ export function Footer() {
             </li>
             <li>
               <a
-                href="https://wa.me/5511999999999"
+                href="https://wa.me/551191302-5382"
                 target="_blank"
                 rel="noreferrer"
                 className="text-foreground/80 transition-colors hover:text-foreground underline-offset-4 hover:underline"
               >
-                WhatsApp — (11) 99999-9999
+                WhatsApp — (11) 91302-5382
               </a>
             </li>
             <li>
