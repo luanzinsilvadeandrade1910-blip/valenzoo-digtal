@@ -1,13 +1,7 @@
-import { ArrowRight, ArrowUpRight, Check, Scissors, Sparkles, Store, Wand2 } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Scissors, Sparkles, Store, Wand2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 import caseSalao from "@/assets/case-salao-color.jpg";
 import caseBarbearia from "@/assets/case-barbearia-color.jpg";
