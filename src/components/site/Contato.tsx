@@ -51,7 +51,8 @@ export function Contato() {
     }
     setErrors({});
     setSubmitting(true);
-    const { error } = await supabase.from("contatos").insert(parsed.data);
+    const { consentimento: _consentimento, ...contato } = parsed.data;
+    const { error } = await supabase.from("contatos").insert(contato);
     if (error) {
       setSubmitting(false);
       toast.error("Não foi possível enviar sua mensagem. Tente novamente em instantes.");
