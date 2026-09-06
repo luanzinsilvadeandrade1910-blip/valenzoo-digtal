@@ -49,11 +49,23 @@ export function Contato() {
     setErrors({});
     setSubmitting(true);
     const { error } = await supabase.from("contatos").insert(parsed.data);
-    setSubmitting(false);
     if (error) {
+      setSubmitting(false);
       toast.error("Não foi possível enviar sua mensagem. Tente novamente em instantes.");
       return;
     }
+    try {
+      await sendContactForm({
+        name: parsed.data.nome,
+        email: parsed.data.email,
+        phone: parsed.data.telefone,
+        businessType: parsed.data.tipo_negocio,
+        message: parsed.data.mensagem,
+      });
+    } catch {
+      toast.error("Mensagem salva, mas o aviso por e-mail falhou. Vamos responder em breve.");
+    }
+    setSubmitting(false);
     setSent(true);
     setForm(EMPTY);
   }
