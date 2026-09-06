@@ -18,12 +18,15 @@ const schema = z.object({
     .refine((v) => v === "" || /^[\d\s()+-]{8,20}$/.test(v), "Informe um telefone válido."),
   tipo_negocio: z.string().refine((v) => TIPOS.includes(v), "Selecione o tipo de negócio."),
   mensagem: z.string().trim().min(10, "Conte um pouco mais (mínimo 10 caracteres).").max(1000, "Máximo de 1000 caracteres."),
+  consentimento: z
+    .boolean()
+    .refine((v) => v === true, "É preciso concordar com a Política de Privacidade."),
 });
 
 type Fields = z.infer<typeof schema>;
 type Errors = Partial<Record<keyof Fields, string>>;
 
-const EMPTY: Fields = { nome: "", email: "", telefone: "", tipo_negocio: "", mensagem: "" };
+const EMPTY: Fields = { nome: "", email: "", telefone: "", tipo_negocio: "", mensagem: "", consentimento: false };
 
 export function Contato() {
   const [form, setForm] = useState<Fields>(EMPTY);
@@ -48,7 +51,8 @@ export function Contato() {
     }
     setErrors({});
     setSubmitting(true);
-    const { error } = await supabase.from("contatos").insert(parsed.data);
+    const { consentimento: _consentimento, ...contato } = parsed.data;
+    const { error } = await supabase.from("contatos").insert(contato);
     if (error) {
       setSubmitting(false);
       toast.error("Não foi possível enviar sua mensagem. Tente novamente em instantes.");
@@ -165,6 +169,32 @@ export function Contato() {
                 <label htmlFor="c-mensagem" className={labelClass}>Mensagem</label>
                 <textarea id="c-mensagem" name="mensagem" rows={5} value={form.mensagem} onChange={set("mensagem")} className={`${inputClass} h-auto py-3 resize-y`} placeholder="O que o seu site precisa fazer? Já tem domínio, Instagram, fotos?" aria-invalid={!!errors.mensagem} />
                 {errors.mensagem && <p className="mt-1.5 text-xs text-destructive">{errors.mensagem}</p>}
+              </div>
+              <div className="sm:col-span-2">
+                <div className="flex items-start gap-3">
+                  <input
+                    id="c-consentimento"
+                    name="consentimento"
+                    type="checkbox"
+                    checked={form.consentimento}
+                    onChange={(e) => setForm((f) => ({ ...f, consentimento: e.target.checked }))}
+                    aria-invalid={!!errors.consentimento}
+                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-sm border border-input bg-background accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  />
+                  <label htmlFor="c-consentimento" className="text-sm leading-relaxed text-muted-foreground">
+                    Li e concordo com a{" "}
+                    <a
+                      href="/politica-de-privacidade"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-foreground underline-offset-4 hover:underline"
+                    >
+                      Política de Privacidade
+                    </a>
+                    .
+                  </label>
+                </div>
+                {errors.consentimento && <p className="mt-1.5 text-xs text-destructive">{errors.consentimento}</p>}
               </div>
               <div className="sm:col-span-2">
                 <button
