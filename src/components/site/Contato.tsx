@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
+import { sendContactForm } from "@/lib/sendContactForm";
 
 const TIPOS = ["Salão de beleza", "Barbearia", "Clínica de estética", "Loja / comércio", "Outro"];
 
