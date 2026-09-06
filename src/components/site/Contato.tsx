@@ -171,6 +171,32 @@ export function Contato() {
                 {errors.mensagem && <p className="mt-1.5 text-xs text-destructive">{errors.mensagem}</p>}
               </div>
               <div className="sm:col-span-2">
+                <div className="flex items-start gap-3">
+                  <input
+                    id="c-consentimento"
+                    name="consentimento"
+                    type="checkbox"
+                    checked={form.consentimento}
+                    onChange={(e) => setForm((f) => ({ ...f, consentimento: e.target.checked }))}
+                    aria-invalid={!!errors.consentimento}
+                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-sm border border-input bg-background accent-foreground checked:border-foreground checked:bg-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  />
+                  <label htmlFor="c-consentimento" className="text-sm leading-relaxed text-muted-foreground">
+                    Li e concordo com a{" "}
+                    <a
+                      href="/politica-de-privacidade"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-foreground underline-offset-4 hover:underline"
+                    >
+                      Política de Privacidade
+                    </a>
+                    .
+                  </label>
+                </div>
+                {errors.consentimento && <p className="mt-1.5 text-xs text-destructive">{errors.consentimento}</p>}
+              </div>
+              <div className="sm:col-span-2">
                 <button
                   type="submit"
                   disabled={submitting}
