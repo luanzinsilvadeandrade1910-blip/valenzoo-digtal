@@ -7,7 +7,7 @@ import { Hero, Servicos, ComoFunciona, Portfolio, Depoimentos, Sobre } from "@/c
 
 const TITLE = "Valenzo — Sites profissionais para negócios locais";
 const DESCRIPTION =
-  "Criamos sites sob medida para salões de beleza, barbearias, clínicas de estética e comércios locais. Agendamento, catálogo e WhatsApp integrados. Entrega em até 15 dias.";
+  "A Valenzo cria sites profissionais para salões de beleza, barbearias, clínicas de estética e comércios locais, com agendamento, catálogo e WhatsApp integrados. Entrega em até 15 dias.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
