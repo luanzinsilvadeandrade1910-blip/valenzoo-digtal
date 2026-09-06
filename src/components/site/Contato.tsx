@@ -179,7 +179,7 @@ export function Contato() {
                     checked={form.consentimento}
                     onChange={(e) => setForm((f) => ({ ...f, consentimento: e.target.checked }))}
                     aria-invalid={!!errors.consentimento}
-                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-sm border border-input bg-background accent-foreground checked:border-foreground checked:bg-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-sm border border-input bg-background accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   />
                   <label htmlFor="c-consentimento" className="text-sm leading-relaxed text-muted-foreground">
                     Li e concordo com a{" "}
