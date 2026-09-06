@@ -18,15 +18,15 @@ const schema = z.object({
     .refine((v) => v === "" || /^[\d\s()+-]{8,20}$/.test(v), "Informe um telefone válido."),
   tipo_negocio: z.string().refine((v) => TIPOS.includes(v), "Selecione o tipo de negócio."),
   mensagem: z.string().trim().min(10, "Conte um pouco mais (mínimo 10 caracteres).").max(1000, "Máximo de 1000 caracteres."),
-  consentimento: z.literal(true, {
-    error: "É preciso concordar com a Política de Privacidade.",
-  }),
+  consentimento: z
+    .boolean()
+    .refine((v) => v === true, "É preciso concordar com a Política de Privacidade."),
 });
 
 type Fields = z.infer<typeof schema>;
 type Errors = Partial<Record<keyof Fields, string>>;
 
-const EMPTY: Fields = { nome: "", email: "", telefone: "", tipo_negocio: "", mensagem: "", consentimento: false as true };
+const EMPTY: Fields = { nome: "", email: "", telefone: "", tipo_negocio: "", mensagem: "", consentimento: false };
 
 export function Contato() {
   const [form, setForm] = useState<Fields>(EMPTY);
