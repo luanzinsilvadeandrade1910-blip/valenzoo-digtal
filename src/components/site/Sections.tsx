@@ -451,10 +451,17 @@ export function Depoimentos() {
   return (
     <section id="depoimentos" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <p className="eyebrow">Depoimentos</p>
+        <Reveal as="p" className="eyebrow">
+          Depoimentos
+        </Reveal>
         <div className="mt-10 grid gap-px border border-border bg-border md:grid-cols-3">
-          {DEPOIMENTOS.map((d) => (
-            <figure key={d.name} className="flex flex-col justify-between bg-background p-8 md:p-10">
+          {DEPOIMENTOS.map((d, i) => (
+            <Reveal
+              key={d.name}
+              as="figure"
+              delay={i * 120}
+              className="flex flex-col justify-between bg-background p-8 transition-colors duration-300 hover:bg-card md:p-10"
+            >
               <blockquote className="text-lg leading-relaxed font-medium tracking-tight text-foreground">
                 “{d.quote}”
               </blockquote>
@@ -462,9 +469,10 @@ export function Depoimentos() {
                 <span className="block font-semibold text-foreground">{d.name}</span>
                 <span className="text-muted-foreground">{d.role}</span>
               </figcaption>
-            </figure>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
