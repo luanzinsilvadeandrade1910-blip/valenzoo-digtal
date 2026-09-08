@@ -364,7 +364,7 @@ export function Portfolio() {
   return (
     <section id="portfolio" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">Portfólio</p>
             <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
@@ -375,25 +375,27 @@ export function Portfolio() {
             Uma seleção de sites entregues nos últimos meses. Cada um foi desenhado do zero para o
             negócio e o público do cliente.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-16 grid gap-x-8 gap-y-14 md:grid-cols-2">
-          {CASES.map((c) => (
-            <article key={c.name} className="group">
+          {CASES.map((c, i) => (
+            <Reveal key={c.name} as="article" delay={(i % 2) * 120} className="group">
               <Button
                 variant="ghost"
                 onClick={() => setOpenCase(c)}
-                className="block h-auto w-full overflow-hidden rounded-none border border-border bg-card p-0 focus-visible:ring-offset-2"
+                className="block h-auto w-full overflow-hidden rounded-none border border-border bg-card p-0 transition-shadow duration-500 hover:shadow-xl focus-visible:ring-offset-2"
                 aria-label={`Abrir case ${c.name}`}
               >
-                <img
-                  src={c.img}
-                  alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
-                  width={1024}
-                  height={768}
-                  loading="lazy"
-                  className="aspect-[4/3] w-full object-cover saturate-75 transition-[transform,filter] duration-500 group-hover:scale-[1.03] group-hover:saturate-100"
-                />
+                <Parallax className="aspect-[4/3] w-full" strength={26}>
+                  <img
+                    src={c.img}
+                    alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
+                    width={1024}
+                    height={768}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-cover saturate-75 transition-[transform,filter] duration-700 ease-out group-hover:scale-[1.04] group-hover:saturate-100"
+                  />
+                </Parallax>
               </Button>
               <div className="mt-5 flex items-start justify-between gap-4">
                 <div>
@@ -405,15 +407,16 @@ export function Portfolio() {
                 <Button
                   variant="ghost"
                   onClick={() => setOpenCase(c)}
-                  className="h-9 shrink-0 rounded-none border-b border-foreground/40 px-0 text-sm font-semibold hover:border-foreground hover:bg-transparent"
+                  className="group/link h-9 shrink-0 rounded-none border-b border-foreground/40 px-0 text-sm font-semibold hover:border-foreground hover:bg-transparent"
                 >
                   Ver projeto
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out motion-safe:group-hover/link:translate-x-0.5 motion-safe:group-hover/link:-translate-y-0.5" />
                 </Button>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
+
       </div>
 
       {openCase && <CaseLightbox c={openCase} onClose={() => setOpenCase(null)} />}
