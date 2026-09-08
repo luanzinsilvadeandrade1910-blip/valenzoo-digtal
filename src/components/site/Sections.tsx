@@ -2,6 +2,8 @@ import { ArrowRight, ArrowUpRight, Check, Scissors, Sparkles, Store, Wand2, X } 
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Reveal, Parallax } from "@/components/site/Reveal";
+import { cn } from "@/lib/utils";
 
 import caseSalao from "@/assets/case-salao-color.jpg";
 import caseBarbearia from "@/assets/case-barbearia-color.jpg";
