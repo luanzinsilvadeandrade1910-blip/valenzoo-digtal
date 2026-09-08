@@ -126,7 +126,7 @@ export function Servicos() {
   return (
     <section id="servicos" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <div className="grid gap-8 md:grid-cols-12">
+        <Reveal className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="eyebrow">Serviços</p>
             <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
@@ -137,28 +137,39 @@ export function Servicos() {
             Cada segmento tem uma rotina diferente. Por isso, cada site da Valenzo nasce com as
             funções que o seu cliente realmente usa — nada a mais, nada a menos.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-16 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICOS.map(({ icon: Icon, title, desc, items }) => (
-            <article
+          {SERVICOS.map(({ icon: Icon, title, desc, items }, i) => (
+            <Reveal
               key={title}
-              className="group flex flex-col bg-background p-8 transition-colors hover:bg-card"
+              as="article"
+              delay={i * 100}
+              className="group relative flex flex-col bg-background p-8 transition-colors duration-300 hover:bg-card"
             >
-              <Icon className="h-6 w-6 text-foreground" strokeWidth={1.5} aria-hidden />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-foreground transition-transform duration-500 ease-out group-hover:scale-x-100"
+              />
+              <Icon
+                className="h-6 w-6 text-foreground transition-transform duration-500 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-110"
+                strokeWidth={1.5}
+                aria-hidden
+              />
               <h3 className="mt-8 text-xl font-bold tracking-tight text-foreground">{title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
               <ul className="mt-8 space-y-2 border-t border-border pt-6 text-sm text-foreground/80">
-                {items.map((i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <span className="h-px w-3 bg-foreground/60" aria-hidden />
-                    {i}
+                {items.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="h-px w-3 bg-foreground/60 transition-all duration-500 ease-out group-hover:w-5" aria-hidden />
+                    {item}
                   </li>
                 ))}
               </ul>
-            </article>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
