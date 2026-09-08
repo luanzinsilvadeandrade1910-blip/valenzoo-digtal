@@ -204,20 +204,30 @@ export function ComoFunciona() {
   return (
     <section id="como-funciona" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <p className="eyebrow">Como funciona</p>
-        <h2 className="mt-4 max-w-3xl text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
-          Quatro etapas. Nenhuma surpresa no caminho.
-        </h2>
+        <Reveal>
+          <p className="eyebrow">Como funciona</p>
+          <h2 className="mt-4 max-w-3xl text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
+            Quatro etapas. Nenhuma surpresa no caminho.
+          </h2>
+        </Reveal>
 
         <ol className="mt-16 grid gap-12 md:grid-cols-4 md:gap-8">
-          {ETAPAS.map((e) => (
-            <li key={e.n} className="border-t border-foreground pt-6">
-              <span className="text-sm font-semibold tabular-nums text-muted-foreground">{e.n}</span>
+          {ETAPAS.map((e, i) => (
+            <Reveal
+              key={e.n}
+              as="li"
+              delay={i * 110}
+              className="group border-t border-foreground pt-6"
+            >
+              <span className="text-sm font-semibold tabular-nums text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+                {e.n}
+              </span>
               <h3 className="mt-4 text-xl font-bold tracking-tight text-foreground">{e.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.desc}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
+
       </div>
     </section>
   );
