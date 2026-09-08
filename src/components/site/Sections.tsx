@@ -2,6 +2,8 @@ import { ArrowRight, ArrowUpRight, Check, Scissors, Sparkles, Store, Wand2, X } 
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Reveal, Parallax } from "@/components/site/Reveal";
+import { cn } from "@/lib/utils";
 
 import caseSalao from "@/assets/case-salao-color.jpg";
 import caseBarbearia from "@/assets/case-barbearia-color.jpg";
@@ -10,13 +12,42 @@ import caseLoja from "@/assets/case-loja-color.jpg";
 
 /* ---------------------------------- Hero ---------------------------------- */
 
+const HERO_LINES = ["Sites profissionais", "para negócios que atendem", "pessoas de verdade."];
+
 export function Hero() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   return (
     <section id="inicio" className="border-b border-border pt-32 pb-20 md:pt-44 md:pb-28">
       <div className="container-site">
-        <p className="eyebrow">Estúdio de sites — São Paulo</p>
+        <p
+          className={cn(
+            "eyebrow motion-safe:transition-all motion-safe:duration-700",
+            mounted ? "opacity-100" : "motion-safe:-translate-y-1 motion-safe:opacity-0",
+          )}
+        >
+          Estúdio de sites — São Paulo
+        </p>
         <h1 className="mt-6 max-w-5xl text-[2.6rem] leading-[1.02] font-extrabold tracking-[-0.045em] text-foreground sm:text-6xl md:text-7xl lg:text-[5.5rem]">
-          Sites profissionais para negócios que atendem pessoas de verdade.
+          {HERO_LINES.map((line, i) => (
+            <span key={line} className="block overflow-hidden pb-[0.06em]">
+              <span
+                style={{ transitionDelay: `${120 + i * 130}ms` }}
+                className={cn(
+                  "block motion-safe:transition-[transform,opacity] motion-safe:duration-[900ms] motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  mounted
+                    ? "opacity-100 motion-safe:translate-y-0"
+                    : "motion-safe:translate-y-full motion-safe:opacity-0",
+                )}
+              >
+                {line}
+              </span>
+            </span>
+          ))}
         </h1>
         <div className="mt-10 grid gap-10 md:grid-cols-12 md:items-end">
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:col-span-7">
@@ -27,14 +58,14 @@ export function Hero() {
           <div className="flex flex-col gap-3 sm:flex-row md:col-span-5 md:justify-end">
             <a
               href="#contato"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/85 hover:shadow-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-0.5"
             >
               Solicitar orçamento
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 motion-safe:group-hover:translate-x-1" />
             </a>
             <a
               href="#portfolio"
-              className="inline-flex h-12 items-center justify-center rounded-sm border border-foreground/30 px-6 text-sm font-semibold text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex h-12 items-center justify-center rounded-sm border border-foreground/30 px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-foreground hover:bg-foreground hover:text-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-0.5"
             >
               Ver portfólio
             </a>
@@ -47,19 +78,20 @@ export function Hero() {
             ["15 dias", "prazo médio de entrega"],
             ["100%", "responsivos e otimizados"],
             ["4,9/5", "avaliação dos clientes"],
-          ].map(([value, label]) => (
-            <div key={label} className="bg-background px-6 py-7">
+          ].map(([value, label], i) => (
+            <Reveal key={label} delay={i * 90} className="bg-background px-6 py-7">
               <dt className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
                 {value}
               </dt>
               <dd className="mt-1 text-sm text-muted-foreground">{label}</dd>
-            </div>
+            </Reveal>
           ))}
         </dl>
       </div>
     </section>
   );
 }
+
 
 /* -------------------------------- Serviços -------------------------------- */
 
@@ -94,7 +126,7 @@ export function Servicos() {
   return (
     <section id="servicos" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <div className="grid gap-8 md:grid-cols-12">
+        <Reveal className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="eyebrow">Serviços</p>
             <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
@@ -105,28 +137,39 @@ export function Servicos() {
             Cada segmento tem uma rotina diferente. Por isso, cada site da Valenzo nasce com as
             funções que o seu cliente realmente usa — nada a mais, nada a menos.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-16 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICOS.map(({ icon: Icon, title, desc, items }) => (
-            <article
+          {SERVICOS.map(({ icon: Icon, title, desc, items }, i) => (
+            <Reveal
               key={title}
-              className="group flex flex-col bg-background p-8 transition-colors hover:bg-card"
+              as="article"
+              delay={i * 100}
+              className="group relative flex flex-col bg-background p-8 transition-colors duration-300 hover:bg-card"
             >
-              <Icon className="h-6 w-6 text-foreground" strokeWidth={1.5} aria-hidden />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-foreground transition-transform duration-500 ease-out group-hover:scale-x-100"
+              />
+              <Icon
+                className="h-6 w-6 text-foreground transition-transform duration-500 ease-out motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-110"
+                strokeWidth={1.5}
+                aria-hidden
+              />
               <h3 className="mt-8 text-xl font-bold tracking-tight text-foreground">{title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
               <ul className="mt-8 space-y-2 border-t border-border pt-6 text-sm text-foreground/80">
-                {items.map((i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <span className="h-px w-3 bg-foreground/60" aria-hidden />
-                    {i}
+                {items.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="h-px w-3 bg-foreground/60 transition-all duration-500 ease-out group-hover:w-5" aria-hidden />
+                    {item}
                   </li>
                 ))}
               </ul>
-            </article>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
@@ -161,20 +204,30 @@ export function ComoFunciona() {
   return (
     <section id="como-funciona" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <p className="eyebrow">Como funciona</p>
-        <h2 className="mt-4 max-w-3xl text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
-          Quatro etapas. Nenhuma surpresa no caminho.
-        </h2>
+        <Reveal>
+          <p className="eyebrow">Como funciona</p>
+          <h2 className="mt-4 max-w-3xl text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
+            Quatro etapas. Nenhuma surpresa no caminho.
+          </h2>
+        </Reveal>
 
         <ol className="mt-16 grid gap-12 md:grid-cols-4 md:gap-8">
-          {ETAPAS.map((e) => (
-            <li key={e.n} className="border-t border-foreground pt-6">
-              <span className="text-sm font-semibold tabular-nums text-muted-foreground">{e.n}</span>
+          {ETAPAS.map((e, i) => (
+            <Reveal
+              key={e.n}
+              as="li"
+              delay={i * 110}
+              className="group border-t border-foreground pt-6"
+            >
+              <span className="text-sm font-semibold tabular-nums text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+                {e.n}
+              </span>
               <h3 className="mt-4 text-xl font-bold tracking-tight text-foreground">{e.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.desc}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
+
       </div>
     </section>
   );
@@ -311,7 +364,7 @@ export function Portfolio() {
   return (
     <section id="portfolio" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">Portfólio</p>
             <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
@@ -322,25 +375,27 @@ export function Portfolio() {
             Uma seleção de sites entregues nos últimos meses. Cada um foi desenhado do zero para o
             negócio e o público do cliente.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-16 grid gap-x-8 gap-y-14 md:grid-cols-2">
-          {CASES.map((c) => (
-            <article key={c.name} className="group">
+          {CASES.map((c, i) => (
+            <Reveal key={c.name} as="article" delay={(i % 2) * 120} className="group">
               <Button
                 variant="ghost"
                 onClick={() => setOpenCase(c)}
-                className="block h-auto w-full overflow-hidden rounded-none border border-border bg-card p-0 focus-visible:ring-offset-2"
+                className="block h-auto w-full overflow-hidden rounded-none border border-border bg-card p-0 transition-shadow duration-500 hover:shadow-xl focus-visible:ring-offset-2"
                 aria-label={`Abrir case ${c.name}`}
               >
-                <img
-                  src={c.img}
-                  alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
-                  width={1024}
-                  height={768}
-                  loading="lazy"
-                  className="aspect-[4/3] w-full object-cover saturate-75 transition-[transform,filter] duration-500 group-hover:scale-[1.03] group-hover:saturate-100"
-                />
+                <Parallax className="aspect-[4/3] w-full" strength={26}>
+                  <img
+                    src={c.img}
+                    alt={`Site desenvolvido para ${c.name} — ${c.seg}`}
+                    width={1024}
+                    height={768}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-cover saturate-75 transition-[transform,filter] duration-700 ease-out group-hover:scale-[1.04] group-hover:saturate-100"
+                  />
+                </Parallax>
               </Button>
               <div className="mt-5 flex items-start justify-between gap-4">
                 <div>
@@ -352,15 +407,16 @@ export function Portfolio() {
                 <Button
                   variant="ghost"
                   onClick={() => setOpenCase(c)}
-                  className="h-9 shrink-0 rounded-none border-b border-foreground/40 px-0 text-sm font-semibold hover:border-foreground hover:bg-transparent"
+                  className="group/link h-9 shrink-0 rounded-none border-b border-foreground/40 px-0 text-sm font-semibold hover:border-foreground hover:bg-transparent"
                 >
                   Ver projeto
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out motion-safe:group-hover/link:translate-x-0.5 motion-safe:group-hover/link:-translate-y-0.5" />
                 </Button>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
+
       </div>
 
       {openCase && <CaseLightbox c={openCase} onClose={() => setOpenCase(null)} />}
@@ -395,10 +451,17 @@ export function Depoimentos() {
   return (
     <section id="depoimentos" className="border-b border-border py-24 md:py-32">
       <div className="container-site">
-        <p className="eyebrow">Depoimentos</p>
+        <Reveal as="p" className="eyebrow">
+          Depoimentos
+        </Reveal>
         <div className="mt-10 grid gap-px border border-border bg-border md:grid-cols-3">
-          {DEPOIMENTOS.map((d) => (
-            <figure key={d.name} className="flex flex-col justify-between bg-background p-8 md:p-10">
+          {DEPOIMENTOS.map((d, i) => (
+            <Reveal
+              key={d.name}
+              as="figure"
+              delay={i * 120}
+              className="flex flex-col justify-between bg-background p-8 transition-colors duration-300 hover:bg-card md:p-10"
+            >
               <blockquote className="text-lg leading-relaxed font-medium tracking-tight text-foreground">
                 “{d.quote}”
               </blockquote>
@@ -406,9 +469,10 @@ export function Depoimentos() {
                 <span className="block font-semibold text-foreground">{d.name}</span>
                 <span className="text-muted-foreground">{d.role}</span>
               </figcaption>
-            </figure>
+            </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );
@@ -420,13 +484,16 @@ export function Sobre() {
   return (
     <section id="sobre" className="border-b border-border py-24 md:py-32">
       <div className="container-site grid gap-12 md:grid-cols-12">
-        <div className="md:col-span-4">
+        <Reveal className="md:col-span-4">
           <p className="eyebrow">Sobre a Valenzo</p>
           <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
             Um estúdio pequeno, focado em negócios locais.
           </h2>
-        </div>
-        <div className="space-y-6 text-base leading-relaxed text-muted-foreground md:col-span-7 md:col-start-6">
+        </Reveal>
+        <Reveal
+          delay={120}
+          className="space-y-6 text-base leading-relaxed text-muted-foreground md:col-span-7 md:col-start-6"
+        >
           <p>
             A Valenzo nasceu em 2021, em São Paulo, depois de percebermos que salões, barbearias e
             pequenos comércios ficavam entre duas opções ruins: um template genérico que não
@@ -448,7 +515,7 @@ export function Sobre() {
               </div>
             ))}
           </dl>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
