@@ -515,7 +515,7 @@ export function Sobre() {
               </div>
             ))}
           </dl>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
