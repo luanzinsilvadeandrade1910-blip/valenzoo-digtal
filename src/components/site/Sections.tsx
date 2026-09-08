@@ -484,13 +484,16 @@ export function Sobre() {
   return (
     <section id="sobre" className="border-b border-border py-24 md:py-32">
       <div className="container-site grid gap-12 md:grid-cols-12">
-        <div className="md:col-span-4">
+        <Reveal className="md:col-span-4">
           <p className="eyebrow">Sobre a Valenzo</p>
           <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.035em] text-foreground md:text-5xl">
             Um estúdio pequeno, focado em negócios locais.
           </h2>
-        </div>
-        <div className="space-y-6 text-base leading-relaxed text-muted-foreground md:col-span-7 md:col-start-6">
+        </Reveal>
+        <Reveal
+          delay={120}
+          className="space-y-6 text-base leading-relaxed text-muted-foreground md:col-span-7 md:col-start-6"
+        >
           <p>
             A Valenzo nasceu em 2021, em São Paulo, depois de percebermos que salões, barbearias e
             pequenos comércios ficavam entre duas opções ruins: um template genérico que não
