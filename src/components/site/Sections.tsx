@@ -10,13 +10,42 @@ import caseLoja from "@/assets/case-loja-color.jpg";
 
 /* ---------------------------------- Hero ---------------------------------- */
 
+const HERO_LINES = ["Sites profissionais", "para negócios que atendem", "pessoas de verdade."];
+
 export function Hero() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   return (
     <section id="inicio" className="border-b border-border pt-32 pb-20 md:pt-44 md:pb-28">
       <div className="container-site">
-        <p className="eyebrow">Estúdio de sites — São Paulo</p>
+        <p
+          className={cn(
+            "eyebrow motion-safe:transition-all motion-safe:duration-700",
+            mounted ? "opacity-100" : "motion-safe:-translate-y-1 motion-safe:opacity-0",
+          )}
+        >
+          Estúdio de sites — São Paulo
+        </p>
         <h1 className="mt-6 max-w-5xl text-[2.6rem] leading-[1.02] font-extrabold tracking-[-0.045em] text-foreground sm:text-6xl md:text-7xl lg:text-[5.5rem]">
-          Sites profissionais para negócios que atendem pessoas de verdade.
+          {HERO_LINES.map((line, i) => (
+            <span key={line} className="block overflow-hidden pb-[0.06em]">
+              <span
+                style={{ transitionDelay: `${120 + i * 130}ms` }}
+                className={cn(
+                  "block motion-safe:transition-[transform,opacity] motion-safe:duration-[900ms] motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  mounted
+                    ? "opacity-100 motion-safe:translate-y-0"
+                    : "motion-safe:translate-y-full motion-safe:opacity-0",
+                )}
+              >
+                {line}
+              </span>
+            </span>
+          ))}
         </h1>
         <div className="mt-10 grid gap-10 md:grid-cols-12 md:items-end">
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:col-span-7">
@@ -27,14 +56,14 @@ export function Hero() {
           <div className="flex flex-col gap-3 sm:flex-row md:col-span-5 md:justify-end">
             <a
               href="#contato"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-primary px-6 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/85 hover:shadow-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-0.5"
             >
               Solicitar orçamento
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 motion-safe:group-hover:translate-x-1" />
             </a>
             <a
               href="#portfolio"
-              className="inline-flex h-12 items-center justify-center rounded-sm border border-foreground/30 px-6 text-sm font-semibold text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex h-12 items-center justify-center rounded-sm border border-foreground/30 px-6 text-sm font-semibold text-foreground transition-all duration-300 hover:border-foreground hover:bg-foreground hover:text-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-0.5"
             >
               Ver portfólio
             </a>
@@ -47,19 +76,20 @@ export function Hero() {
             ["15 dias", "prazo médio de entrega"],
             ["100%", "responsivos e otimizados"],
             ["4,9/5", "avaliação dos clientes"],
-          ].map(([value, label]) => (
-            <div key={label} className="bg-background px-6 py-7">
+          ].map(([value, label], i) => (
+            <Reveal key={label} delay={i * 90} className="bg-background px-6 py-7">
               <dt className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
                 {value}
               </dt>
               <dd className="mt-1 text-sm text-muted-foreground">{label}</dd>
-            </div>
+            </Reveal>
           ))}
         </dl>
       </div>
     </section>
   );
 }
+
 
 /* -------------------------------- Serviços -------------------------------- */
 
